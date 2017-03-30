@@ -1,25 +1,30 @@
 class GroupsController < ApplicationController
   def index
     @groups = Group.all
+
+
+  def show
+     @group = Group.find(params[:id])
   end
 
-   def show
-     @group = Group.find(params[:id])
-   end
-    def edit
-     @group = Group.find(params[:id])
-    end
+  def edit
+    @group = Group.find(params[:id])
+  end
 
 
-   def new
+  def new
      @group = Group.new
-   end
-    def create
-      @group = Group.new(group_params)
-      @group.save
+  end
 
+  def create
+    @group = Group.new(group_params)
+
+    if @group.save
         redirect_to groups_path
+    else
+        ender :new
     end
+   end
 
       def update
         @group = Group.find(params[:id])
@@ -35,9 +40,8 @@ class GroupsController < ApplicationController
           redirect_to groups_path
         end
 
-    private
+       private
 
     def group_params
       params.require(:group).permit(:title, :description)
     end
-end
